@@ -36,5 +36,9 @@ alpha_up_pr[t,c(3,4)] = quantile( alpha_pr ,c(0.05,0.95))
 
 loglik = loglik/T
 ## Return a list
+                           
+## To be passed to be optimized
+## need : return(loglik)
+## probably bag in the code of christian
 return(list(loglik, alpha_up_pr))
 }
