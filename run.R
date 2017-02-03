@@ -25,19 +25,15 @@ sim_df = sv_sim(theta, T)
 y = sim_df$y
 alpha = sim_df$alpha
 
-if(save.plots){
-pdf("../images/ts_returns.pdf")
+if(save.plots) {pdf("../images/ts_returns.pdf")}
 plot(y, type="l")
 lines(1.96*exp(alpha/2), col= "red")
 lines(-1.96*exp(alpha/2), col= "red")
-dev.off()
-}
+if(save.plots) {dev.off()}
 
-if(save.plots){
-pdf("../images/ts_volatility.pdf")
+if(save.plots) {pdf("../images/ts_volatility.pdf")}
 plot(sqrt(252)*exp(alpha/2), type='l')
-dev.off()
-}
+if(save.plots) {dev.off()}
 
 ###################################################
 #SetUp - Particle Filtering
@@ -72,19 +68,19 @@ for (t in 1:T){
 #   alpha_pr_are[t,] = quantile(alpha_pr, 0:(1/(size(alpha_pr_are,2)-1)):1 );
 }
 
-if(save.plots) pdf("../images/prediction_density.pdf")
-    plot(sqrt(252)*exp(alpha/2), type='l')
-    lines(sqrt(252)*exp(alpha_up_mat[,1]/2), col='blue')
-    lines(sqrt(252)*exp(alpha_up_mat[,2]/2), col='blue')
-    lines(sqrt(252)*exp(alpha_up_mat[,3]/2), col='blue')
-if(save.plots) dev.off()
+if(save.plots) {pdf("../images/prediction_density.pdf")}
+plot(sqrt(252)*exp(alpha/2), type='l')
+lines(sqrt(252)*exp(alpha_up_mat[,1]/2), col='blue')
+lines(sqrt(252)*exp(alpha_up_mat[,2]/2), col='blue')
+lines(sqrt(252)*exp(alpha_up_mat[,3]/2), col='blue')
+if(save.plots) {dev.off()}
 
-if(save.plots) pdf("../images/filtering_density.pdf")
-    plot(sqrt(252)*exp(alpha/2), type='l')
-    lines(sqrt(252)*exp(alpha_pr_mat[,1]/2), col='blue')
-    lines(sqrt(252)*exp(alpha_pr_mat[,2]/2), col='blue')
-    lines(sqrt(252)*exp(alpha_pr_mat[,3]/2), col='blue')
-if(save.plots) dev.off()
+if(save.plots) {pdf("../images/filtering_density.pdf")}
+plot(sqrt(252)*exp(alpha/2), type='l')
+lines(sqrt(252)*exp(alpha_pr_mat[,1]/2), col='blue')
+lines(sqrt(252)*exp(alpha_pr_mat[,2]/2), col='blue')
+lines(sqrt(252)*exp(alpha_pr_mat[,3]/2), col='blue')
+if(save.plots) {dev.off()}
 
 
 ####PLOTTING#### Heat Maps
