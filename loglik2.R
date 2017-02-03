@@ -52,7 +52,7 @@ sv_fit <- function(y,theta,P,estimate){
   
   loglik = cc[[1]]
   alpha <- cc[[2]]
-  return(list(loglik, optimized$solution, alpha)#, theta_se)
+  return(list(loglik, optimized$solution, alpha))#, theta_se)
   
   
 }
