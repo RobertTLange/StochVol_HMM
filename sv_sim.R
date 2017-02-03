@@ -8,7 +8,7 @@ sv_sim <- function(theta, T){
     const = theta[1]
     phi = theta[2]
     tau2 = theta[3]
-
+##Stupid change
     alpha = rep(0,T)              #placeholder volatility
     y = rep(0,T)                  #placeholder returns
     eta = rnorm(T, 0, sqrt(tau2)) #error of AR(1) volatility model
