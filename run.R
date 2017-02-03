@@ -5,8 +5,8 @@ set.seed(1234, kind = NULL, normal.kind = NULL)
 source("multiplot_ts.R")
 source("sv_sim.R")
 source("sir.R")
-#source("csir.R")
-#source("sv_fit.R")
+source("csir.R")
+source("sv_fit.R")
 ################################################################################
 
 #General Function SetUp:

@@ -13,9 +13,9 @@ sv_fit <- function(y,theta,P,estimate){
   u_sim = runif(P*T, 0,1)
   u_sim      = matrix(u_sim, P, T)
   
-  for (t in c(1:T)) (u_sim[,t] = sort( u_sim[,t] )
+  for (t in c(1:T)){u_sim[,t] = sort( u_sim[,t] )}
   
-  if (estimate){
+  if(estimate){
     
     ## Algorithm is the closest I foundd to active set in Matlab
     ## Not all options are included(but they are not necessary)
