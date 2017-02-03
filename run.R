@@ -1,4 +1,3 @@
-setwd('/Users/rtl/Desktop/02_BGSE_2016_2017/03_Financial_Econometrics/code/PROJECT/Code')
 rm(list=ls())
 save.plots = FALSE
 set.seed(1234, kind = NULL, normal.kind = NULL)
