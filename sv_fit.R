@@ -1,4 +1,4 @@
-function [loglik theta_sml theta_se alpha_up_quant] = sv_fit(y,theta,P,estimate)
+#function [loglik theta_sml theta_se alpha_up_quant] = sv_fit(y,theta,P,estimate)
 
 library(nloptr)
 
