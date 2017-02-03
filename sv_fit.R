@@ -19,8 +19,7 @@ sv_fit <- function(y,theta,P,estimate){
     
     ## Algorithm is the closest I foundd to active set in Matlab
     ## Not all options are included(but they are not necessary)
-    opts <- list("algorithm"="NLOPT_LD_SLSQP",
-                 "xtol_rel"=1.0e-12)
+   
     #options = optimset('fmincon');
     #options = optimset(options , 'Display'     , 'iter');
     #options = optimset(options , 'Diagnostics' , 'off');
@@ -34,7 +33,11 @@ sv_fit <- function(y,theta,P,estimate){
     print('estimating...') 
     
     # Note: theta should be a vector
-    optimized <- nloptr(theta, eval_f = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]], opts = opts, lb=lb, ub=ub, )
+    optimized <- nloptr(theta, eval_f = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]], 
+                        opts =  opts <- list("algorithm"="NLOPT_LN_NELDERMEAD",
+                                             "xtol_rel"=1.0e-12), lb=lb, ub=ub)
+    
+    # NLOPT_LD_SLSQP
     
     ## !! To check how to compute the hessian
     #theta_se =diag(sqrt(inv(HESSIAN)));

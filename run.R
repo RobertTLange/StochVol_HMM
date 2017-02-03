@@ -7,6 +7,7 @@ source("sv_sim.R")
 source("sir.R")
 source("csir.R")
 source("sv_fit.R")
+source("sv_loglik.R")
 ################################################################################
 
 #General Function SetUp:
@@ -106,4 +107,4 @@ if(save.plots) {dev.off()}
 # plot( sqrt(252)*exp(alpha/2) ,  'k')
 # myprint('../images/sv-sim-predicting-dist-act.pdf')
 
-#[ loglik theta_mle theta_se alpha_up_pr ] = sv_fit(y,theta,P,1);
+values  = sv_fit(y,theta,P,1);
