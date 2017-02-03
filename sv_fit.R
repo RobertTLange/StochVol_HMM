@@ -15,7 +15,7 @@ sv_fit <- function(y,theta,P,estimate){
   
   for (t in c(1:T)){u_sim[,t] = sort( u_sim[,t] )}
   
-  if(estimate){
+  if(estimate==1){
     
     ## Algorithm is the closest I foundd to active set in Matlab
     ## Not all options are included(but they are not necessary)
