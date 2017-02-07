@@ -18,12 +18,14 @@ for (t in 1:T){
   lik = dnorm( y[t]*rep(1,P) , rep(0,P) , exp(alpha_pr/2))
   log_mean_lik <- tryCatch(log(mean(lik)), error=function(e)(NA))
 
-  if (is.na( log_mean_lik )==FALSE) {
+  if (is.na( log_mean_lik )==FALSE){
+  loglik = loglik - log_mean_lik} else {
     print(paste('problem at ',as.character(t),as.character(theta)))
     loglik = Inf
+<<<<<<< HEAD
     list(loglik,NA)
   } else{
-    loglik = loglik - log_mean_lik
+    
     # update
     alpha_wt = lik
     alpha_up = csir(alpha_pr,alpha_wt,u_sim[,t])
@@ -44,4 +46,27 @@ for (t in 1:T){
   
     }
   }
+=======
+    list(loglik, NA)
+  } else{
+  
+# update
+alpha_wt = lik
+alpha_up = csir(alpha_pr,alpha_wt,u_sim[,t])
 
+# quant
+alpha_up_pr[t,1] = mean( alpha_up )
+alpha_up_pr[t,2] = mean( alpha_pr )
+alpha_up_pr[t,c(3,4)] = quantile( alpha_pr ,c(0.05,0.95))
+}
+
+loglik = loglik/T
+## Return a list
+                           
+## To be passed to be optimized
+## need : return(loglik)
+## probably bag in the code of christian
+return(list(loglik, alpha_up_pr))
+} 
+                           }
+>>>>>>> 80a183daf1ca46af9ff0572fe9594473f76202ec

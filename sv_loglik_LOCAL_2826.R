@@ -18,12 +18,13 @@ for (t in 1:T){
   lik = dnorm( y[t]*rep(1,P) , rep(0,P) , exp(alpha_pr/2))
   log_mean_lik <- tryCatch(log(mean(lik)), error=function(e)(NA))
 
-  if (is.na( log_mean_lik )==FALSE) {
+  if (is.na( log_mean_lik )==FALSE){
+  loglik = loglik - log_mean_lik} else {
     print(paste('problem at ',as.character(t),as.character(theta)))
     loglik = Inf
     list(loglik,NA)
   } else{
-    loglik = loglik - log_mean_lik
+    
     # update
     alpha_wt = lik
     alpha_up = csir(alpha_pr,alpha_wt,u_sim[,t])
@@ -44,4 +45,3 @@ for (t in 1:T){
   
     }
   }
-
