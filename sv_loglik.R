@@ -22,24 +22,26 @@ for (t in 1:T){
   loglik = loglik - log_mean_lik} else {
     print(paste('problem at ',as.character(t),as.character(theta)))
     loglik = Inf
-    stop("Not converged")
+    list(loglik,NA)
+  } else{
+    
+    # update
+    alpha_wt = lik
+    alpha_up = csir(alpha_pr,alpha_wt,u_sim[,t])
+    
+    # quant
+    alpha_up_pr[t,1] = mean( alpha_up )
+    alpha_up_pr[t,2] = mean( alpha_pr )
+    alpha_up_pr[t,c(3,4)] = quantile( alpha_pr ,c(0.05,0.95))
   }
   
-# update
-alpha_wt = lik
-alpha_up = csir(alpha_pr,alpha_wt,u_sim[,t])
-
-# quant
-alpha_up_pr[t,1] = mean( alpha_up )
-alpha_up_pr[t,2] = mean( alpha_pr )
-alpha_up_pr[t,c(3,4)] = quantile( alpha_pr ,c(0.05,0.95))
-}
-
-loglik = loglik/T
-## Return a list
-                           
-## To be passed to be optimized
-## need : return(loglik)
-## probably bag in the code of christian
-return(list(loglik, alpha_up_pr))
-}
+  loglik = loglik/T
+  ## Return a list
+  
+  ## To be passed to be optimized
+  ## need : return(loglik)
+  ## probably bag in the code of christian
+  return(list(loglik, alpha_up_pr))
+  
+    }
+  }
