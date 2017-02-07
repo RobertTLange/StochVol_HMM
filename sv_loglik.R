@@ -22,8 +22,8 @@ for (t in 1:T){
   loglik = loglik - log_mean_lik} else {
     print(paste('problem at ',as.character(t),as.character(theta)))
     loglik = Inf
-    stop("Not converged")
-  }
+    list(loglik, NA)
+  } else{
   
 # update
 alpha_wt = lik
@@ -42,4 +42,5 @@ loglik = loglik/T
 ## need : return(loglik)
 ## probably bag in the code of christian
 return(list(loglik, alpha_up_pr))
-}
+} 
+                           }
