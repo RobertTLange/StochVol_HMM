@@ -33,11 +33,11 @@ sv_fit <- function(y,theta,P,estimate){
     print('estimating...') 
     
     # Note: theta should be a vector
-    #optimized <- nloptr(theta, eval_f = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]], 
-    #                    opts =  opts <- list("algorithm"="NLOPT_LD_MMA",
-    #                                         "xtol_rel"=1.0e-12), lb=lb, ub=ub)
+    optimized <- nloptr(theta, eval_f = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]], 
+                        opts =  opts <- list("algorithm"="NLOPT_LD_SLSQP",
+                                             "xtol_rel"=1.0e-12), lb=lb, ub=ub)
     
-    optimized <- optim(theta, fn = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]])
+    #optimized <- optim(theta, fn = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]])
     # NLOPT_LD_SLSQP
     
     ## !! To check how to compute the hessian
@@ -57,6 +57,7 @@ sv_fit <- function(y,theta,P,estimate){
   loglik = cc[[1]]
   alpha <- cc[[2]]
   return(list(loglik, optimized$solution, alpha))#, theta_se)
+  #return(list(optimized$value, optimized$solution))#, theta_se)
   
   
 }
