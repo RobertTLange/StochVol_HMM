@@ -37,11 +37,7 @@ for (t in 1:T){
   } }
   
   loglik = loglik/T
-  ## Return a list
-  
-  ## To be passed to be optimized
-  ## need : return(loglik)
-  ## probably bag in the code of christian
+
   return(list(loglik, alpha_up_pr))
   
     }

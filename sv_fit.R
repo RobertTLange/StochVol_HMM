@@ -53,7 +53,7 @@ sv_fit <- function(y,theta,P,estimate){
     
   }
   
-  cc = sv_loglik(param$par +3,y,eta_sim,u_sim,alpha_up_0,alpha_wt_0)
+  cc = sv_loglik(param$par,y,eta_sim,u_sim,alpha_up_0,alpha_wt_0)
   
   loglik = cc[[1]]
   alpha <- cc[[2]]
