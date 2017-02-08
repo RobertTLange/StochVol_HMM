@@ -39,7 +39,7 @@ sv_fit <- function(y,theta,P,estimate){
     
     #optimized <- optim(theta, fn = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]])
     # NLOPT_LD_SLSQP
-    
+    obj <- function(x){ return( sv_loglik(x,y, eta_sim, u_sim, alpha_up_0, alpha_wt_0)[[1]] ) } 
     param <- nlminb( theta, obj, lower=lb, upper=ub )
     ## !! To check how to compute the hessian
     #theta_se =diag(sqrt(inv(HESSIAN)));
@@ -53,11 +53,11 @@ sv_fit <- function(y,theta,P,estimate){
     
   }
   
-  cc = sv_loglik(optimized$par,y,eta_sim,u_sim,alpha_up_0,alpha_wt_0)
+  cc = sv_loglik(param$par +3,y,eta_sim,u_sim,alpha_up_0,alpha_wt_0)
   
   loglik = cc[[1]]
   alpha <- cc[[2]]
-  return(list(loglik, optimized$solution, alpha))#, theta_se)
+  return(list(loglik, param$par, alpha))#, theta_se)
   #return(list(optimized$value, optimized$solution))#, theta_se)
   
   

@@ -2,12 +2,12 @@ rm(list=ls())
 save.plots = FALSE
 set.seed(1234, kind = NULL, normal.kind = NULL)
 ################################################################################
-source("multiplot_ts.R")
-source("sv_sim.R")
-source("sir.R")
-source("csir.R")
-source("sv_fit.R")
-source("sv_loglik.R")
+source("/home/davide/Desktop/Esercizi Lab/StochVol_HMM/multiplot_ts.R")
+source("/home/davide/Desktop/Esercizi Lab/StochVol_HMM/sv_sim.R")
+source("/home/davide/Desktop/Esercizi Lab/StochVol_HMM/sir.R")
+source("/home/davide/Desktop/Esercizi Lab/StochVol_HMM/csir.R")
+source("/home/davide/Desktop/Esercizi Lab/StochVol_HMM/sv_fit.R")
+source("/home/davide/Desktop/Esercizi Lab/StochVol_HMM/sv_loglik.R")
 ################################################################################
 
 #General Function SetUp:
