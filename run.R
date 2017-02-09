@@ -16,6 +16,9 @@ rm(list=ls())
 save.plots <- FALSE
 set.seed(1234, kind = NULL, normal.kind = NULL)
 
+# load libraries
+library(fanplot)
+
 # loading depending sources
 source("multiplot_ts.R")
 source("sv_sim.R")       # simulates the returns and volatility time series
@@ -58,7 +61,7 @@ alpha_wt <- rep(1,P)/P
 
 alpha_up_mat <- matrix(rep(0, T*3),T)
 alpha_pr_mat <- matrix(rep(0, T*3),T)
-#alpha_pr_are <- matrix(rep(0, T*20),T)
+alpha_pr_are <- matrix(rep(0, T*20),T)
 
 # generate a particle set of P random draws from an approximation
 # of the prediction and filtering distribution for every time series point
@@ -76,7 +79,7 @@ for (t in 1:T){
     alpha_pr_mat[t,2] <- mean(alpha_pr)
     alpha_pr_mat[t,1] <- quantile(alpha_pr,0.05)
     alpha_pr_mat[t,3] <- quantile( alpha_pr,0.95)
-#   alpha_pr_are[t,] <- quantile(alpha_pr, 0:(1/(size(alpha_pr_are,2)-1)):1 );
+    alpha_pr_are[t,] <- quantile(alpha_pr, seq(0,1,1/(ncol(alpha_pr_are)-1)))
 }
 
 # plot prediction density
@@ -98,6 +101,26 @@ if(save.plots) dev.off()
 # ----------------------------------------------------------------------
 # Plotting heat maps
 # ----------------------------------------------------------------------
+m <- matrix(rep(1,T*20), T, 20)
+for (i in 1:20) {
+    m[,i] <- sqrt(252)*exp(alpha_pr_are[,21-i]/2) 
+}
+jet.colors <- colorRampPalette(c("red", "#FF7F00", "yellow","#7FFF7F", "cyan", "#007FFF", "blue"), 
+                               bias=1, space="rgb", interpolate="spline")
+
+if(save.plots) pdf("../images/sv-sim-predicting-dist.pdf")
+plot(NULL, xlim = c(1, T), ylim = c(0, 160))
+fan(data = t(m), fan.col = jet.colors)
+if(save.plots) dev.off()
+
+if(save.plots) pdf("../images/sv-sim-predicting-dist-act.pdf")
+plot(NULL, xlim = c(1, T), ylim = c(0, 160))
+fan(data = t(m), fan.col = jet.colors)
+lines( sqrt(252)*exp(alpha/2) ,  col="black")
+if(save.plots) dev.off()
+
+
+
 # figure()
 # hold
 # js = jet(11);
@@ -121,4 +144,7 @@ if(save.plots) dev.off()
 # plot( sqrt(252)*exp(alpha/2) ,  'k')
 # myprint('../images/sv-sim-predicting-dist-act.pdf')
 
-values <- sv_fit(y,theta,P,1);
+# ----------------------------------------------------------------------
+# Estimate time series parameters
+# ----------------------------------------------------------------------
+values <- sv_fit(y,theta,P,1)
