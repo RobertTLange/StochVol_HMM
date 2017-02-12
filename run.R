@@ -53,8 +53,7 @@ if(save.plots) dev.off()
 # ----------------------------------------------------------------------
 # Setup particle filtering
 # ----------------------------------------------------------------------
-#t <- 1
-P <- 200 #set number of particles
+P <- 200 # set number of particles
 alpha_up <- rnorm(P,0,0.1)
 alpha_pr <- rep(0,P)
 alpha_wt <- rep(1,P)/P
@@ -101,50 +100,25 @@ if(save.plots) dev.off()
 # ----------------------------------------------------------------------
 # Plotting heat maps
 # ----------------------------------------------------------------------
-m <- matrix(rep(1,T*20), T, 20)
+heat <- matrix(rep(1,T*20), T, 20)
 for (i in 1:20) {
-    m[,i] <- sqrt(252)*exp(alpha_pr_are[,21-i]/2) 
+    heat[,i] <- sqrt(252)*exp(alpha_pr_are[,21-i]/2) 
 }
 jet.colors <- colorRampPalette(c("red", "#FF7F00", "yellow","#7FFF7F", "cyan", "#007FFF", "blue"), 
                                bias=1, space="rgb", interpolate="spline")
 
 if(save.plots) pdf("../images/sv-sim-predicting-dist.pdf")
 plot(NULL, xlim = c(1, T), ylim = c(0, 160))
-fan(data = t(m), fan.col = jet.colors)
+fan(data = t(heat), fan.col = jet.colors)
 if(save.plots) dev.off()
 
 if(save.plots) pdf("../images/sv-sim-predicting-dist-act.pdf")
 plot(NULL, xlim = c(1, T), ylim = c(0, 160))
-fan(data = t(m), fan.col = jet.colors)
+fan(data = t(heat), fan.col = jet.colors)
 lines( sqrt(252)*exp(alpha/2) ,  col="black")
 if(save.plots) dev.off()
-
-
-
-# figure()
-# hold
-# js = jet(11);
-# js(1,:) = [1 1 1];
-# for i=1:20
-#     area( sqrt(252)*exp(alpha_pr_are(:,21-i)/2) , 'FaceColor',js(11-abs((i)-10),:) ,'LineWidth',0.01 , 'EdgeColor',js(11-abs((i)-10),:));
-#     11-abs((i)-10)
-# end
-# set(gca,'Layer','top')
-# myprint('../images/sv-sim-predicting-dist.pdf')
-#
-# figure()
-# hold
-# js = jet(11);
-# js(1,:) = [1 1 1];
-# for i=1:20
-#     area( sqrt(252)*exp(alpha_pr_are(:,21-i)/2) , 'FaceColor',js(11-abs((i)-10),:) ,'LineWidth',0.01 , 'EdgeColor',js(11-abs((i)-10),:));
-#     11-abs((i)-10)
-# end
-# set(gca,'Layer','top')
-# plot( sqrt(252)*exp(alpha/2) ,  'k')
-# myprint('../images/sv-sim-predicting-dist-act.pdf')
 
 # ----------------------------------------------------------------------
 # Estimate time series parameters
 # ----------------------------------------------------------------------
-values <- sv_fit(y,theta,P,1)
+values <- sv_fit(y, theta, P, 1)

@@ -25,9 +25,11 @@ sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt) {
     for (t in 1:T) {
         alpha_pr <- const + phi*alpha_up + sqrt(tau2)*eta_sim[,t]
         lik <- dnorm( y[t]*rep(1,P) , rep(0,P) , exp(alpha_pr/2))
-        log_mean_lik <- tryCatch(log(mean(lik)), error=function(e)(NA))
-
-        if (is.na( log_mean_lik )) {
+        log_mean_lik <- tryCatch(log(mean(lik)), error=function(e)(-Inf))
+        #print(log_mean_lik)
+        
+        #if (is.na( log_mean_lik )) {
+        if (log_mean_lik == -Inf) {
             print(paste('problem at ',as.character(t),as.character(theta)))
             loglik <- Inf
             alpha_up_pr <- NA
@@ -36,7 +38,7 @@ sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt) {
             loglik <- loglik - log_mean_lik
             # update
             alpha_wt <- lik
-            alpha_up <- csir(alpha_pr,alpha_wt,u_sim[,t])
+            alpha_up <- csir(alpha_pr, alpha_wt, u_sim[,t])
     
             # quantiles
             alpha_up_pr[t,1] <- mean( alpha_up )
@@ -46,7 +48,7 @@ sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt) {
     }
   
     loglik <- loglik/T
-    return(list(loglik, alpha_up_pr))
+    return(list(loglik = loglik, alpha_up_pr = alpha_up_pr))
 }
   
 

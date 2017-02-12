@@ -12,7 +12,7 @@
 
 library(nloptr)
 
-sv_fit <- function(y,theta,P,estimate) {
+sv_fit <- function(y, theta, P, estimate) {
     T <- length(y)
   
     alpha_up_0 <- rnorm(P, 0,1)
@@ -24,50 +24,43 @@ sv_fit <- function(y,theta,P,estimate) {
   
     for (t in c(1:T)) {u_sim[,t] <- sort( u_sim[,t] )}
   
-    if(estimate==1){
-    
-        ## Algorithm is the closest I foundd to active set in Matlab
-        ## Not all options are included(but they are not necessary)
-   
-        #options = optimset('fmincon');
-        #options = optimset(options , 'Display'     , 'iter');
-        #options = optimset(options , 'Diagnostics' , 'off');
-        #options = optimset(options , 'TolCon',1e-10);
-        #options = optimset(options , 'Algorithm','active-set');
-        #options = optimset(options , 'TolFun',1e-12);
-    
-        lb <- rep(0, length(theta))+0.001;
-        ub <- rep(1, length(theta))-2*exp(-10);
-    
+    if(estimate==1) {
         print('estimating...') 
-    
-        # Note: theta should be a vector
-        #optimized <- nloptr(theta, eval_f = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]], 
-        #                    opts =  opts <- list("algorithm"="NLOPT_LD_SLSQP",
-        #                                         "xtol_rel"=1.0e-12), lb=lb, ub=ub)
         
-        #optimized <- optim(theta, fn = function(x)(sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0))[[1]])
-        # NLOPT_LD_SLSQP
-        obj <- function(x){ return( sv_loglik(x,y, eta_sim, u_sim, alpha_up_0, alpha_wt_0)[[1]] ) } 
-        param <- nlminb( theta, obj, lower=lb, upper=ub )
-        ## !! To check how to compute the hessian
-        #theta_se =diag(sqrt(inv(HESSIAN)));
+        # set optimization parameters
+        lb <- rep(0,length(theta)) + 0.001;
+        ub <- rep(1,length(theta)) - 2*exp(-10);
+        obj <- function(x){ return( sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0)$loglik ) } 
+        
+        # run box-constrained optimization
+        #param <- nlminb( theta, obj, lower=lb, upper=ub )
+        param <- optim( theta, obj, method='L-BFGS-B', lower=lb, upper=ub, hessian=TRUE )
+        theta_mle <- param$par
+        theta_se <- diag(sqrt(solve(param$hessian)))
         print('... done!') 
     
-    
-    } else{
-        ## !! Unsure to be correct
-        stop("no estimate required")
+    } else {
+        theta_mle <- c()
+        theta_se <- c()
     }
   
-    cc <- sv_loglik(param$par,y,eta_sim,u_sim,alpha_up_0,alpha_wt_0)
-    loglik <- cc[[1]]
-    alpha <- cc[[2]]
+    # compute log-liklihood (quantiles) of MLE parameters
+    ll <- sv_loglik(theta_mle, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0)
     
-    return(list(loglik, param$par, alpha))
+    return(list(loglik      = - ll$loglik, 
+                theta_mle   = theta_mle, 
+                theta_se    = theta_se,
+                alpha_up_pr = ll$alpha_up_pr))
 }
 
-
+# test run
+#theta <- c(0.05, 0.98, 0.02)
+#sim_df <- sv_sim(theta, 1000)
+#y <- sim_df$y
+#P <- 200
+#start <- proc.time()
+#values <- sv_fit(y,theta,P,1)
+#diff <- proc.time() - start
 
 
 
