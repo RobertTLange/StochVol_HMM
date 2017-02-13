@@ -50,5 +50,4 @@ sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt) {
     loglik <- loglik/T
     return(list(loglik = loglik, alpha_up_pr = alpha_up_pr))
 }
-  
-
+ 

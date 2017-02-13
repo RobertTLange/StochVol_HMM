@@ -12,7 +12,7 @@
 
 library(nloptr)
 
-sv_fit <- function(y, theta, P, estimate) {
+sv_fit <- function(y, theta, P, mode=1) {
     T <- length(y)
   
     alpha_up_0 <- rnorm(P, 0,1)
@@ -24,19 +24,23 @@ sv_fit <- function(y, theta, P, estimate) {
   
     for (t in c(1:T)) {u_sim[,t] <- sort( u_sim[,t] )}
   
-    if(estimate==1) {
-        print('estimating...') 
-        
+    if(mode==1 | mode==2) {
         # set optimization parameters
         lb <- rep(0,length(theta)) + 0.001;
         ub <- rep(1,length(theta)) - 2*exp(-10);
         obj <- function(x){ return( sv_loglik(x, y, eta_sim, u_sim, alpha_up_0, alpha_wt_0)$loglik ) } 
         
         # run box-constrained optimization
-        #param <- nlminb( theta, obj, lower=lb, upper=ub )
-        param <- optim( theta, obj, method='L-BFGS-B', lower=lb, upper=ub, hessian=TRUE )
+        if (mode==1) {
+            print('estimating...') 
+            param <- optim( theta, obj, method='L-BFGS-B', lower=lb, upper=ub, hessian=TRUE )
+            theta_se <- diag(sqrt(solve(param$hessian)))
+        } else {
+            print('estimating (without standard errors)...') 
+            param <- nlminb( theta, obj, lower=lb, upper=ub )
+            theta_se <- c()
+        }
         theta_mle <- param$par
-        theta_se <- diag(sqrt(solve(param$hessian)))
         print('... done!') 
     
     } else {
