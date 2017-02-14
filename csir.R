@@ -15,6 +15,7 @@
 # Input 3: u        - sorted uniformly random sampled vector (rejection sampling)
 # Output:  alpha_up - particle filtered (continuous version)
 
+# R version (slow performance)
 csir <- function(alpha_pr, alpha_wt, u) {
     P <- length(alpha_pr)
 
@@ -43,6 +44,20 @@ csir <- function(alpha_pr, alpha_wt, u) {
     return(alpha_up)
 }
 
+# wrapper for C version (increased performance)
+csir.c <- function(alpha_pr, alpha_wt, u) {
+    P <- length(alpha_pr)
+    alpha_up <- rep(0,P)
+    results <- .C("csir", alpha_up=as.double(alpha_up), 
+                          alpha_pr=as.double(alpha_pr), 
+                          alpha_wt=as.double(alpha_wt), 
+                          u=as.double(u), 
+                          len=as.integer(P))
+    return (results$alpha_up) 
+}
+
 # test run
 # u = sort(runif(P,0,1))
 # csir(alpha_pr, alpha_wt, u)
+# csir.c(alpha_pr, alpha_wt, u)
+    

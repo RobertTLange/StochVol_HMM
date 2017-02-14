@@ -26,6 +26,7 @@ source("sir.R")          # computes the sequential importance resampling (predic
 source("csir.R")
 source("sv_fit.R")
 source("sv_loglik.R")
+dyn.load("csir.so")
 
 # ----------------------------------------------------------------------
 # Construct and plot simulated TS
