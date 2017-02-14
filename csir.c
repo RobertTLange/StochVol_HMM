@@ -27,6 +27,7 @@ int cmp(const void *a, const void *b){
 // Input 1: alpha_pr - predictive density
 // Input 2: alpha_wt - normal pdf evaluated at y[t]
 // Input 3: u        - sorted uniformly random sampled vector (rejection sampling)
+// Input 4: len      - length of vectors alpha_up, alpha_pr, alpha_wt, u
 void csir(double *alpha_up, double *alpha_pr, double *alpha_wt, double *u, int *len) {
     
     int P = len[0];
