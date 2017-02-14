@@ -14,8 +14,9 @@ The following repository contains these scripts:
 
 * csir.R - Simulation-based filter (continuous sequential importance sampling) which is needed for the likelihood estimation
 
-*sv_fit - Optimization function for the likelihood
+* sv_fit.R - Optimization function for the likelihood
 
-*sv_lik - Compute the likelihood function
+* sv_loglik.R - Compute the likelihood function
 
-To be continued with optimization in C++
+* csir.c /csir.so - C version of simulation-based filer for faster performance (5 times faster)
+
