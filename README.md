@@ -1,6 +1,6 @@
 # Stochastic Volatility Modelling using Hidden Markov Model
 
-Project carried out for Financial Econometrics class tought by Prof. Christian Brownlees.
+Project carried out for Financial Econometrics class taught by Prof. Christian Brownlees.
 We estimate a common stochastic volatility model which models the volatility process as a latent state.
 We infer the dynamics in the time series by utilizing a Hidden Markov Model (HMM) which allows identification by Sequential Monte Carlo.
 
