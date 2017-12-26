@@ -9,9 +9,10 @@
 #
 # (Authors) Davide Viviano | Robert Lange | Hans-Peter Höllwirth
 # (Date)    02.2017
+
 dyn.load("csir.so")
 
-sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt) {
+sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt, c_version=T) {
     
     T <- length(y)
     P <- length(alpha_up)
@@ -39,7 +40,9 @@ sv_loglik <- function(theta, y, eta_sim, u_sim, alpha_up, alpha_wt) {
             loglik <- loglik - log_mean_lik
             # update
             alpha_wt <- lik
-            alpha_up <- csir.c(alpha_pr, alpha_wt, u_sim[,t])
+            if(c_version){alpha_up <- csir.c(alpha_pr, alpha_wt, u_sim[,t])} else{
+              alpha_up <- csir(alpha_pr, alpha_wt, u_sim[,t])
+            }
     
             # quantiles
             alpha_up_pr[t,1] <- mean( alpha_up )

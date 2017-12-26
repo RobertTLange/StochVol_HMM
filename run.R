@@ -13,7 +13,7 @@
 # ----------------------------------------------------------------------
 # house cleaning
 rm(list=ls())
-save.plots <- FALSE
+save.plots <- F
 set.seed(1234, kind = NULL, normal.kind = NULL)
 
 # load libraries

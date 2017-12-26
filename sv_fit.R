@@ -34,7 +34,7 @@ sv_fit <- function(y, theta, P, mode=1) {
         if (mode==1) {
             print('estimating...') 
             param <- optim( theta, obj, method='L-BFGS-B', lower=lb, upper=ub, hessian=TRUE )
-            theta_se <- diag(sqrt(solve(param$hessian)))
+            theta_se <- sqrt(diag(abs(solve(param$hessian))))
         } else {
             print('estimating (without standard errors)...') 
             param <- nlminb( theta, obj, lower=lb, upper=ub )
