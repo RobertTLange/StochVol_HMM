@@ -19,7 +19,9 @@ The following repository contains these scripts:
 
 * sv_loglik.R - Compute the likelihood function
 
-* csir.c /csir.so - C version of simulation-based filer for faster performance (5 times faster)
+* csir.c /csir.so - C version of simulation-based filer for faster performance (default). The R function dyn.load loads the DLL. For few platforms it might require different arguments. If an error shows up, please consult the help page of dyn.load function. 
+
+* notebook.ipybn - Notebook showing an example of SV parameters estimation using CSIR. 
 
 ## Dependencies ##
 Required libraries:
@@ -27,6 +29,7 @@ Required libraries:
 * nloptr (tested version 1.0.4; used for maximum likelihood estimation) 
 
 ## Instructions ##
-Execute script run.R. 
+Set as working directory your-directory/StochVol_HMM/code. 
+Execute script run.R (on Linux sudo Rscript run.R); open the notebook file.
 For faster execution of the maximum likelihood estimation run function sv_fit in mode 2 (estimation without standard errors).
 
