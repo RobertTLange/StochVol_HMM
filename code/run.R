@@ -14,9 +14,7 @@
 # house cleaning
 rm(list=ls())
 save.plots <- F
-=======
 par(mfrow=c(1,1), mar=c(2.5,2.5,1,1))
-save.plots <- FALSE
 set.seed(1234, kind = NULL, normal.kind = NULL)
 
 # load libraries
