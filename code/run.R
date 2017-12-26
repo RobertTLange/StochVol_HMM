@@ -13,7 +13,12 @@
 # ----------------------------------------------------------------------
 # house cleaning
 rm(list=ls())
+<<<<<<< HEAD:run.R
 save.plots <- F
+=======
+par(mfrow=c(1,1), mar=c(2.5,2.5,1,1))
+save.plots <- FALSE
+>>>>>>> 6cf7387e2c70ab01ff60888a48a152a9b9797189:code/run.R
 set.seed(1234, kind = NULL, normal.kind = NULL)
 
 # load libraries
@@ -109,14 +114,18 @@ jet.colors <- colorRampPalette(c("red", "#FF7F00", "yellow","#7FFF7F", "cyan", "
                                bias=1, space="rgb", interpolate="spline")
 
 if(save.plots) pdf("../images/sv-sim-predicting-dist.pdf")
-plot(NULL, xlim = c(1, T), ylim = c(0, 160))
-fan(data = t(heat), fan.col = jet.colors)
+plot(NULL, xlim = c(1, T), ylim = c(0, 160), axes=F, xlab='', ylab='')
+axis(1, at=seq(0,1000,100), lwd=0, lwd.tick=1, tck=0.02)
+axis(2, at=seq(0,160,20), lwd=0, lwd.tick=1, tck=0.02, las=2)
+fan(data = t(heat), fan.col = jet.colors, rlab=NULL, ln=NULL)
 if(save.plots) dev.off()
 
 if(save.plots) pdf("../images/sv-sim-predicting-dist-act.pdf")
-plot(NULL, xlim = c(1, T), ylim = c(0, 160))
-fan(data = t(heat), fan.col = jet.colors)
-lines( sqrt(252)*exp(alpha/2) ,  col="black")
+plot(NULL, xlim = c(1, T), ylim = c(0, 160), axes=F, xlab='', ylab='')
+axis(1, at=seq(0,1000,100), lwd=0, lwd.tick=1, tck=0.02)
+axis(2, at=seq(0,160,20), lwd=0, lwd.tick=1, tck=0.02, las=2)
+fan(data = t(heat), fan.col = jet.colors, rlab=NULL, ln=NULL)
+lines( sqrt(252)*exp(alpha/2), col="black", lwd = 1.3)
 if(save.plots) dev.off()
 
 # ----------------------------------------------------------------------
