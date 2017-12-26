@@ -13,12 +13,10 @@
 # ----------------------------------------------------------------------
 # house cleaning
 rm(list=ls())
-<<<<<<< HEAD:run.R
 save.plots <- F
 =======
 par(mfrow=c(1,1), mar=c(2.5,2.5,1,1))
 save.plots <- FALSE
->>>>>>> 6cf7387e2c70ab01ff60888a48a152a9b9797189:code/run.R
 set.seed(1234, kind = NULL, normal.kind = NULL)
 
 # load libraries
